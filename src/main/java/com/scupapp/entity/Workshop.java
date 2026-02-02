@@ -57,7 +57,7 @@ public class Workshop {
     @NotNull
     private int mentorSzam;
 
-    @NotNull
+   // @NotNull //todo később visszatenni notnullra
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tema_id", nullable = false)
     private Tema tema;
