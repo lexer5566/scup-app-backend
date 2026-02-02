@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: Scup App
+
+  profiles:
+    active: h2
+
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
+
+server:
+  port: 8081
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.mail: DEBUG
