@@ -49,7 +49,7 @@ public class Workshop {
     )
     private Set<Aktor> mentorok;
 
-    @NotNull
+    //@NotNull //todo később visszatenni notnullra
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "kapcsolattarto_id")
     private Kapcsolattarto kapcsolattarto;
@@ -57,4 +57,8 @@ public class Workshop {
     @NotNull
     private int mentorSzam;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tema_id", nullable = false)
+    private Tema tema;
 }
