@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class AktorInputDTO {
 
     @NotBlank
-    private String felhasznalonev;
+    private String felhasznalofasz;
 
     @NotBlank
     private String jelszo;
