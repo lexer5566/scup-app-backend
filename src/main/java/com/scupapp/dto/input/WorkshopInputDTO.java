@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class WorkshopInputDTO {
 
-
     private String helyszin;
 
     private LocalDate datum;

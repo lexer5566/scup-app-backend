@@ -36,6 +36,10 @@ public class Workshop {
     @Column(name = "datum")
     private LocalDate datum;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tema_id")
+    private Tema tema;
+
     @NotNull
     @Column(name = "kezdes")
     private LocalDateTime kezdes;
