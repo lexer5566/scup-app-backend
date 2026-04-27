@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.util.Set;
-
 @Entity
 @Data
 @Builder
@@ -42,7 +40,5 @@ public class Kapcsolattarto {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "kapcsolattarto", fetch = FetchType.LAZY)
-    private Set<Workshop> workshopok;
 
 }

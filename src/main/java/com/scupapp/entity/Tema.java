@@ -42,8 +42,5 @@ public class Tema {
     private Set<SablonFile> sablonok;
 
 
-    @OneToMany(mappedBy = "tema", fetch = FetchType.LAZY)
-    private Set<Workshop> workshopok;
-
 
 }

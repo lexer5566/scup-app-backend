@@ -12,7 +12,6 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Data
@@ -37,28 +36,11 @@ public class Workshop {
     @Column(name = "datum")
     private LocalDate datum;
 
-    @NotNull
+    @NotEmpty
     @Column(name = "kezdes")
     private LocalDateTime kezdes;
-
-    @ManyToMany (fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "workshop_mentor",
-            joinColumns = @JoinColumn(name = "workshop_id"),
-            inverseJoinColumns = @JoinColumn(name = "aktor_id")
-    )
-    private Set<Aktor> mentorok;
-
-    //@NotNull //todo később visszatenni notnullra
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "kapcsolattarto_id")
-    private Kapcsolattarto kapcsolattarto;
 
     @NotNull
     private int mentorSzam;
 
-   // @NotNull //todo később visszatenni notnullra
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "tema_id", nullable = false)
-    private Tema tema;
 }
