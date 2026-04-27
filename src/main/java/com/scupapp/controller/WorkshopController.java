@@ -16,4 +16,7 @@ public interface WorkshopController {
 
     @PostMapping("/assignTema/{temaId}/{workshopId}")
     ResponseEntity<WorkshopOutputDTO> assignTemaToWorkshop(@PathVariable Long temaId, @PathVariable Long workshopId);
+
+    @PostMapping("/assignMentor/{mentorId}/{workshopId}")
+    ResponseEntity<WorkshopOutputDTO> assignMentorToWorkshop(@PathVariable Long mentorId, @PathVariable Long workshopId);
 }

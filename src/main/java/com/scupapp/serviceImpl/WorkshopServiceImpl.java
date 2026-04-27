@@ -2,9 +2,11 @@ package com.scupapp.serviceImpl;
 
 import com.scupapp.dto.input.WorkshopInputDTO;
 import com.scupapp.dto.output.WorkshopOutputDTO;
+import com.scupapp.entity.Aktor;
 import com.scupapp.entity.Tema;
 import com.scupapp.entity.Workshop;
 import com.scupapp.mapper.WorkshopMapper;
+import com.scupapp.repository.AktorRepository;
 import com.scupapp.repository.TemaRepository;
 import com.scupapp.repository.WorkshopRepository;
 import com.scupapp.service.WorkshopService;
@@ -25,6 +27,7 @@ public class WorkshopServiceImpl implements WorkshopService {
 
     private final WorkshopRepository workshopRepository;
     private final TemaRepository temaRepository;
+    private final AktorRepository aktorRepository;
 
     @Override
     public ResponseEntity<String> createWorkshop(WorkshopInputDTO workshopInputDTO) {
@@ -47,6 +50,21 @@ public class WorkshopServiceImpl implements WorkshopService {
         Tema tema = temaRepository.getReferenceById(temaId);
 
         workshop.setTema(tema);
+        return ResponseEntity.ok(workshopMapper.toDto(workshop));
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<WorkshopOutputDTO> assignMentorToWorkshop(Long mentorId, Long workshopId) {
+        Workshop workshop = workshopRepository.findById(workshopId)
+                .orElseThrow(() -> new EntityNotFoundException("Workshop nem található: " + workshopId));
+
+        Aktor mentor = aktorRepository.getReferenceById(mentorId);
+
+        if (!workshop.getMentorList().contains(mentor)) {
+            workshop.getMentorList().add(mentor);
+        }
+
         return ResponseEntity.ok(workshopMapper.toDto(workshop));
     }
 }

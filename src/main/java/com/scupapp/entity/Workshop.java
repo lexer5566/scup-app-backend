@@ -12,6 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,6 +28,14 @@ public class Workshop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "workshop_id")
     private Long id;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "workshop_mentorok",
+            joinColumns = @JoinColumn(name = "workshop_id"),
+            inverseJoinColumns = @JoinColumn(name = "aktor_id")
+    )
+    private List<Aktor> mentorList;
 
     @NotEmpty
     @Column(name = "helyszin")

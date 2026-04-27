@@ -9,4 +9,6 @@ public interface WorkshopService {
     ResponseEntity<String> createWorkshop(WorkshopInputDTO workshopInputDTO);
 
     ResponseEntity<WorkshopOutputDTO> assignTemaToWorkshop(Long temaId, Long workshopInputDTO);
+
+    ResponseEntity<WorkshopOutputDTO> assignMentorToWorkshop(Long mentorId, Long workshopId);
 }
