@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class KapcsolattartoControllerImpl implements KapcsolattartoController {
 
+
+
+
+
+
     private final KapcsolattartoService kapcsolattartoService;
 
     @Override
