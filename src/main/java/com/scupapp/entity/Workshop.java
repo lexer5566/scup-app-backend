@@ -32,11 +32,11 @@ public class Workshop {
     @Column(name = "helyszin")
     private String helyszin;
 
-    @NotEmpty
+    @NotNull
     @Column(name = "datum")
     private LocalDate datum;
 
-    @NotEmpty
+    @NotNull
     @Column(name = "kezdes")
     private LocalDateTime kezdes;
 
