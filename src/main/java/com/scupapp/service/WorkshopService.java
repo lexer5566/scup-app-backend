@@ -6,7 +6,13 @@ import org.springframework.http.ResponseEntity;
 
 public interface WorkshopService {
 
-    ResponseEntity<String> createWorkshop(WorkshopInputDTO workshopInputDTO);
+    ResponseEntity<String> createWorkshop(WorkshopInputDTO workshop);
+
+    ResponseEntity<WorkshopOutputDTO> updateWorkshop(Long id, WorkshopInputDTO workshop);
+
+    ResponseEntity<String> deleteWorkshop(Long id);
+
+    ResponseEntity<WorkshopOutputDTO> getWorkshop(Long id);
 
     ResponseEntity<WorkshopOutputDTO> assignTemaToWorkshop(Long temaId, Long workshopInputDTO);
 

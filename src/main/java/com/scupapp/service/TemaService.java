@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface TemaService {
 
-    ResponseEntity<String> createTema(TemaInputDTO tema);
+    ResponseEntity<String> createTema(TemaInputDTO temaInputDTO);
 
-    ResponseEntity<TemaOutputDTO> updateTema(Long id, TemaInputDTO tema);
+    ResponseEntity<TemaOutputDTO> updateTema(Long id, TemaInputDTO temaInputDTO);
 
     ResponseEntity<String> deleteTema(Long id);
 

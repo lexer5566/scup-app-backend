@@ -42,6 +42,43 @@ public class WorkshopServiceImpl implements WorkshopService {
     }
 
     @Override
+    public ResponseEntity<WorkshopOutputDTO> updateWorkshop(Long id, WorkshopInputDTO workshop) {
+        Workshop entity = workshopRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Nincs"));
+
+        if (workshop.getHelyszin() != null) {
+            entity.setHelyszin(workshop.getHelyszin());
+        }
+        if(workshop.getDatum() != null) {
+            entity.setDatum(workshop.getDatum());
+        }
+        if(workshop.getKezdes() != null) {
+            entity.setKezdes(workshop.getKezdes());
+        }
+//todo megnézni a mentorszámot
+        WorkshopOutputDTO response = workshopMapper.toDto(entity);
+
+        return ResponseEntity.ok().body(response);
+    }
+    @Override
+    public ResponseEntity<String> deleteWorkshop(Long id) {
+        if(workshopRepository.existsById(id)) {
+            workshopRepository.deleteById(id);
+            return ResponseEntity.ok().body("Workshop deleted successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Workshop not found");
+        }
+    }
+
+    @Override
+    public ResponseEntity<WorkshopOutputDTO> getWorkshop(Long id) {
+        return workshopRepository.findById(id)
+                .map(workshopMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new EntityNotFoundException("Nincs ilyen!"));
+    }
+
+    @Override
     @Transactional
     public ResponseEntity<WorkshopOutputDTO> assignTemaToWorkshop(Long temaId, Long workshopId) {
         Workshop workshop = workshopRepository.findById(workshopId)
