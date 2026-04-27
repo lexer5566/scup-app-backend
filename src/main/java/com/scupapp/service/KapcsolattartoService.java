@@ -10,4 +10,8 @@ public interface KapcsolattartoService {
 
     ResponseEntity<KapcsolattartoOutputDTO> updateKapcsolattarto(Long id, KapcsolattartoInputDTO kapcsolattarto);
 
+    ResponseEntity<String> deleteKapcsolattarto(Long id);
+
+    ResponseEntity<KapcsolattartoOutputDTO> getKapcsolattarto(Long id);
+
 }

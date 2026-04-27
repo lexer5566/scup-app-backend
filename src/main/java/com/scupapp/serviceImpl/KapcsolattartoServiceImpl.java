@@ -6,6 +6,7 @@ import com.scupapp.entity.Kapcsolattarto;
 import com.scupapp.mapper.KapcsolattartoMapper;
 import com.scupapp.repository.KapcsolattartoRepository;
 import com.scupapp.service.KapcsolattartoService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,5 +61,21 @@ public class KapcsolattartoServiceImpl implements KapcsolattartoService {
         return ResponseEntity.ok().body(response);
     }
 
+    @Override
+    public ResponseEntity<String> deleteKapcsolattarto(Long id) {
+        if (kapcsolattartoRepository.existsById(id)) {
+            kapcsolattartoRepository.deleteById(id);
+            return ResponseEntity.ok().body("Kapcsolattarto deleted");
+        }else  {
+            return ResponseEntity.badRequest().body("Kapcsolattarto not found");
+        }
+    }
 
+    @Override
+    public ResponseEntity<KapcsolattartoOutputDTO> getKapcsolattarto(Long id) {
+        return kapcsolattartoRepository.findById(id)
+                .map(kapcsolattartoMapper::toDto) // Ha létezik, átalakítja DTO-vá
+                .map(ResponseEntity::ok)         // Ha létezik a DTO, becsomagolja 200 OK-ba
+                .orElseThrow(() -> new EntityNotFoundException("Nincs ilyen!"));
+    }
 }
