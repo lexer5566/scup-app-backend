@@ -37,4 +37,14 @@ public class WorkshopControllerImpl implements WorkshopController {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+
+    @Override
+    public ResponseEntity<WorkshopOutputDTO> assignMentorToWorkshop(Long mentorId, Long workshopId) {
+        try {
+            return workshopService.assignMentorToWorkshop(mentorId, workshopId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
 }
