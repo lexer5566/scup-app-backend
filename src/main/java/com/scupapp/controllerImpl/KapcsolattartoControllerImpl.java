@@ -21,7 +21,7 @@ public class KapcsolattartoControllerImpl implements KapcsolattartoController {
     @Override
     public ResponseEntity<KapcsolattartoOutputDTO> getKapcsolattarto(Long id) {
         try {
-            return kapcsolattartoService.getKapcsolattarto(id);
+            return ResponseEntity.ok(kapcsolattartoService.getKapcsolattarto(id));
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -31,7 +31,7 @@ public class KapcsolattartoControllerImpl implements KapcsolattartoController {
     @Override
     public ResponseEntity<String> createKapcsolattarto(@RequestBody KapcsolattartoInputDTO inputDTO) {
         try {
-            return kapcsolattartoService.createKapcsolattarto(inputDTO);
+            return ResponseEntity.ok(kapcsolattartoService.createKapcsolattarto(inputDTO));
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -41,7 +41,7 @@ public class KapcsolattartoControllerImpl implements KapcsolattartoController {
     @Override
     public ResponseEntity<KapcsolattartoOutputDTO> updateKapcsolattarto(Long id, KapcsolattartoInputDTO inputDTO) {
         try {
-            return kapcsolattartoService.updateKapcsolattarto(id, inputDTO);
+            return ResponseEntity.ok(kapcsolattartoService.updateKapcsolattarto(id,inputDTO));
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -51,7 +51,7 @@ public class KapcsolattartoControllerImpl implements KapcsolattartoController {
     @Override
     public ResponseEntity<String> deleteKapcsolattarto(Long id) {
         try {
-            return kapcsolattartoService.deleteKapcsolattarto(id);
+            return ResponseEntity.ok(kapcsolattartoService.deleteKapcsolattarto(id));
         } catch (Exception e) {
             log.error(e.getMessage());
         }

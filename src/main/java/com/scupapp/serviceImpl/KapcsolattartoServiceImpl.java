@@ -10,7 +10,6 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -23,20 +22,20 @@ public class KapcsolattartoServiceImpl implements KapcsolattartoService {
     private final KapcsolattartoRepository kapcsolattartoRepository;
 
     @Override
-    public ResponseEntity<String> createKapcsolattarto(KapcsolattartoInputDTO kapcsolattarto) {
+    public String createKapcsolattarto(KapcsolattartoInputDTO kapcsolattarto) {
         Kapcsolattarto entity = kapcsolattartoMapper.toEntity(kapcsolattarto);
         try {
             kapcsolattartoRepository.save(entity);
-            return ResponseEntity.ok().body("Kapcsolattarto created");
+            return "Kapcsolattarto created";
         }catch (Exception e){
             log.error(e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return e.getMessage();
         }
     }
 
     @Override
     @Transactional
-    public ResponseEntity<KapcsolattartoOutputDTO> updateKapcsolattarto(Long id, KapcsolattartoInputDTO kapcsolattartoInputDTO) {
+    public KapcsolattartoOutputDTO updateKapcsolattarto(Long id, KapcsolattartoInputDTO kapcsolattartoInputDTO) {
         Kapcsolattarto entity = kapcsolattartoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Nincs"));
 
@@ -58,24 +57,23 @@ public class KapcsolattartoServiceImpl implements KapcsolattartoService {
 
         KapcsolattartoOutputDTO response = kapcsolattartoMapper.toDto(entity);
 
-        return ResponseEntity.ok().body(response);
+        return response;
     }
 
     @Override
-    public ResponseEntity<String> deleteKapcsolattarto(Long id) {
+    public String deleteKapcsolattarto(Long id) {
         if (kapcsolattartoRepository.existsById(id)) {
             kapcsolattartoRepository.deleteById(id);
-            return ResponseEntity.ok().body("Kapcsolattarto deleted");
+            return "Kapcsolattarto deleted";
         }else  {
-            return ResponseEntity.badRequest().body("Kapcsolattarto not found");
+            return "Kapcsolattarto not found";
         }
     }
 
     @Override
-    public ResponseEntity<KapcsolattartoOutputDTO> getKapcsolattarto(Long id) {
+    public KapcsolattartoOutputDTO getKapcsolattarto(Long id) {
         return kapcsolattartoRepository.findById(id)
                 .map(kapcsolattartoMapper::toDto) // Ha létezik, átalakítja DTO-vá
-                .map(ResponseEntity::ok)         // Ha létezik a DTO, becsomagolja 200 OK-ba
                 .orElseThrow(() -> new EntityNotFoundException("Nincs ilyen!"));
     }
 }

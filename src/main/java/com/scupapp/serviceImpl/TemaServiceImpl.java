@@ -10,7 +10,6 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -23,20 +22,20 @@ public class TemaServiceImpl implements TemaService {
     private final TemaRepository temaRepository;
 
     @Override
-    public ResponseEntity<String> createTema(TemaInputDTO temaInputDTO){
+    public String createTema(TemaInputDTO temaInputDTO){
         Tema entity = temaMapper.toEntity(temaInputDTO);
         try{
             temaRepository.save(entity);
-            return ResponseEntity.ok().body("Tema saved");
+            return "Tema elmentve";
         } catch(Exception e){
             log.error(e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return "Hiba";
         }
     }
 
     @Override
     @Transactional
-    public ResponseEntity<TemaOutputDTO> updateTema(Long id, TemaInputDTO temaInputDTO) {
+    public TemaOutputDTO updateTema(Long id, TemaInputDTO temaInputDTO) {
         Tema entity = temaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Nincs"));
         if (temaInputDTO.getNev() != null) {
@@ -48,24 +47,23 @@ public class TemaServiceImpl implements TemaService {
 
         TemaOutputDTO response = temaMapper.toDto(entity);
 
-        return ResponseEntity.ok().body(response);
+        return response;
     }
 
     @Override
-    public ResponseEntity<String> deleteTema(Long id) {
+    public String deleteTema(Long id) {
         if (temaRepository.existsById(id)) {
             temaRepository.deleteById(id);
-            return ResponseEntity.ok().body("Tema deleted");
+            return "Tema törölve";
         }else  {
-            return ResponseEntity.badRequest().body("Tema not found");
+            return "Tema not found";
         }
     }
 
     @Override
-    public ResponseEntity<TemaOutputDTO> getTema(Long id) {
+    public TemaOutputDTO getTema(Long id) {
         return temaRepository.findById(id)
                 .map(temaMapper::toDto)
-                .map(ResponseEntity::ok)
                 .orElseThrow(() -> new EntityNotFoundException("Nincs ilyen!"));
     }
 }

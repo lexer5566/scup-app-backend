@@ -18,10 +18,11 @@ public class WorkshopControllerImpl implements WorkshopController {
 
     private final WorkshopService workshopService;
 
+
     @Override
     public ResponseEntity<String> createWorkshop(WorkshopInputDTO workshopInputDTO) {
         try{
-            return workshopService.createWorkshop(workshopInputDTO);
+            return ResponseEntity.ok(workshopService.createWorkshop(workshopInputDTO));
         } catch(Exception e){
             log.error(e.getMessage());
         }
@@ -31,7 +32,7 @@ public class WorkshopControllerImpl implements WorkshopController {
     @Override
     public ResponseEntity<WorkshopOutputDTO> assignTemaToWorkshop(Long temaId, Long workshopId) {
         try {
-            return workshopService.assignTemaToWorkshop(temaId, workshopId);
+            return ResponseEntity.ok(workshopService.assignTemaToWorkshop(temaId, workshopId));
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -39,9 +40,34 @@ public class WorkshopControllerImpl implements WorkshopController {
     }
 
     @Override
+    public ResponseEntity<WorkshopOutputDTO> removeTemaFromWorkshop(Long workshopId) {
+        try {
+            return ResponseEntity.ok(workshopService.removeTemaFromWorkshop(workshopId));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ResponseEntity<WorkshopOutputDTO> updateTemaToWorkshop(Long temaId, Long workshopId) {
+
+    }
+
+    @Override
     public ResponseEntity<WorkshopOutputDTO> assignMentorToWorkshop(Long mentorId, Long workshopId) {
         try {
-            return workshopService.assignMentorToWorkshop(mentorId, workshopId);
+            return ResponseEntity.ok(workshopService.assignMentorToWorkshop(mentorId, workshopId));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    @Override
+    public ResponseEntity<WorkshopOutputDTO> removeMentorFromWorkshop(Long mentorId, Long workshopId) {
+        try {
+            return ResponseEntity.ok(workshopService.removeMentorFromWorkshop(mentorId, workshopId));
         } catch (Exception e) {
             log.error(e.getMessage());
         }

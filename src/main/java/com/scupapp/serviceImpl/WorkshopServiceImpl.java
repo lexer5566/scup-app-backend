@@ -14,13 +14,13 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class WorkshopServiceImpl implements WorkshopService {
 
     private final WorkshopMapper workshopMapper;
@@ -30,19 +30,19 @@ public class WorkshopServiceImpl implements WorkshopService {
     private final AktorRepository aktorRepository;
 
     @Override
-    public ResponseEntity<String> createWorkshop(WorkshopInputDTO workshopInputDTO) {
+    public String createWorkshop(WorkshopInputDTO workshopInputDTO) {
         Workshop workshop = workshopMapper.toEntity(workshopInputDTO);
         try{
             workshopRepository.save(workshop);
-            return ResponseEntity.ok().body("Workshop created successfully");
+            return "Workshop létrehozva";
         }catch (Exception e){
             log.error(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            return "Hiba";
         }
     }
 
     @Override
-    public ResponseEntity<WorkshopOutputDTO> updateWorkshop(Long id, WorkshopInputDTO workshop) {
+    public WorkshopOutputDTO updateWorkshop(Long id, WorkshopInputDTO workshop) {
         Workshop entity = workshopRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Nincs"));
 
@@ -58,41 +58,38 @@ public class WorkshopServiceImpl implements WorkshopService {
 //todo megnézni a mentorszámot
         WorkshopOutputDTO response = workshopMapper.toDto(entity);
 
-        return ResponseEntity.ok().body(response);
+        return response;
     }
     @Override
-    public ResponseEntity<String> deleteWorkshop(Long id) {
+    public String deleteWorkshop(Long id) {
         if(workshopRepository.existsById(id)) {
             workshopRepository.deleteById(id);
-            return ResponseEntity.ok().body("Workshop deleted successfully");
+            return "Workshop törölve";
         } else {
-            return ResponseEntity.badRequest().body("Workshop not found");
+            return String.format("Workshop nem taláklható id-vel %d", id);
         }
     }
 
     @Override
-    public ResponseEntity<WorkshopOutputDTO> getWorkshop(Long id) {
+    public WorkshopOutputDTO getWorkshop(Long id) {
         return workshopRepository.findById(id)
                 .map(workshopMapper::toDto)
-                .map(ResponseEntity::ok)
                 .orElseThrow(() -> new EntityNotFoundException("Nincs ilyen!"));
     }
 
     @Override
-    @Transactional
-    public ResponseEntity<WorkshopOutputDTO> assignTemaToWorkshop(Long temaId, Long workshopId) {
+    public WorkshopOutputDTO assignTemaToWorkshop(Long temaId, Long workshopId) {
         Workshop workshop = workshopRepository.findById(workshopId)
                 .orElseThrow(() -> new EntityNotFoundException("Workshop nem található: " + workshopId));
 
         Tema tema = temaRepository.getReferenceById(temaId);
 
         workshop.setTema(tema);
-        return ResponseEntity.ok(workshopMapper.toDto(workshop));
+        return workshopMapper.toDto(workshop);
     }
 
     @Override
-    @Transactional
-    public ResponseEntity<WorkshopOutputDTO> assignMentorToWorkshop(Long mentorId, Long workshopId) {
+    public WorkshopOutputDTO assignMentorToWorkshop(Long mentorId, Long workshopId) {
         Workshop workshop = workshopRepository.findById(workshopId)
                 .orElseThrow(() -> new EntityNotFoundException("Workshop nem található: " + workshopId));
 
@@ -102,6 +99,30 @@ public class WorkshopServiceImpl implements WorkshopService {
             workshop.getMentorList().add(mentor);
         }
 
-        return ResponseEntity.ok(workshopMapper.toDto(workshop));
+        return workshopMapper.toDto(workshop);
     }
+
+    @Override
+    public WorkshopOutputDTO removeMentorFromWorkshop(Long mentorId, Long workshopId) {
+        Workshop workshop = workshopRepository.findById(workshopId)
+                .orElseThrow(() -> new EntityNotFoundException("Workshop nem található: " + workshopId));
+
+        Aktor mentor = aktorRepository.getReferenceById(mentorId);
+
+        workshop.getMentorList().remove(mentor);
+
+        return workshopMapper.toDto(workshop);
+    }
+
+    @Override
+    public WorkshopOutputDTO removeTemaFromWorkshop(Long workshopId) {
+        Workshop workshop = workshopRepository.findById(workshopId)
+                .orElseThrow(() -> new EntityNotFoundException("Workshop nem található: " + workshopId));
+
+        workshop.setTema(null);
+
+        return workshopMapper.toDto(workshop);
+    }
+
+
 }

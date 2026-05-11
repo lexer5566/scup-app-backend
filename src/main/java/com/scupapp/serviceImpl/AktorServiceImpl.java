@@ -7,10 +7,8 @@ import com.scupapp.mapper.AktorMapper;
 import com.scupapp.repository.AktorRepository;
 import com.scupapp.service.AktorService;
 import jakarta.transaction.Transactional;
-import jdk.jfr.TransitionTo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -23,20 +21,20 @@ public class AktorServiceImpl implements AktorService {
     private final AktorRepository aktorRepository;
 
     @Override
-    public ResponseEntity<String> createAktor(AktorInputDTO aktorInputDTO) {
+    public String createAktor(AktorInputDTO aktorInputDTO) {
         Aktor entity = aktorMapper.toEntity(aktorInputDTO);
         try{
             aktorRepository.save(entity);
-            return ResponseEntity.ok().body("Aktor created");
+            return "Aktor created";
         }catch (Exception e){
             log.error(e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return e.getMessage();
         }
     }
 
     @Override
     @Transactional
-    public ResponseEntity<AktorOutputDTO> updateAktor(Long id, AktorInputDTO aktorInputDTO){
+    public AktorOutputDTO updateAktor(Long id, AktorInputDTO aktorInputDTO){
         Aktor entity = aktorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Nincs"));
 
@@ -56,5 +54,15 @@ public class AktorServiceImpl implements AktorService {
             entity.setEmail(aktorInputDTO.getEmail());
         }
 
+    }
+
+    @Override
+    public String deleteAktor(Long id) {
+        return "";
+    }
+
+    @Override
+    public AktorOutputDTO getAktor(Long id) {
+        return null;
     }
 }
