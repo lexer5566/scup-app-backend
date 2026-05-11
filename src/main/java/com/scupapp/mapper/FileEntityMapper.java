@@ -2,6 +2,7 @@ package com.scupapp.mapper;
 
 
 import com.scupapp.dto.input.FileEntityInputDTO;
+import com.scupapp.dto.output.FileEntityOutputDTO;
 import com.scupapp.entity.FileEntity;
 import org.mapstruct.Mapper;
 
@@ -9,4 +10,6 @@ import org.mapstruct.Mapper;
 public interface FileEntityMapper {
 
     FileEntity toEntity(FileEntityInputDTO fileEntityInputDTO);
+
+    FileEntityOutputDTO toDto(FileEntity fileEntity);
 }
