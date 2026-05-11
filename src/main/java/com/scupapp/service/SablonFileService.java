@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface SablonFileService {
 
-    ResponseEntity<SablonFileOutputDTO> createSablonFile(SablonFileInputDTO sablonFile);
+    ResponseEntity<String> createSablonFile(SablonFileInputDTO sablonFile);
 
     ResponseEntity<SablonFileOutputDTO> updateSablonFile(Long id, SablonFileInputDTO sablonFile);
 
