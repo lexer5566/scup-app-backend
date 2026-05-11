@@ -2,15 +2,14 @@ package com.scupapp.service;
 
 import com.scupapp.dto.input.SablonFileInputDTO;
 import com.scupapp.dto.output.SablonFileOutputDTO;
-import org.springframework.http.ResponseEntity;
 
 public interface SablonFileService {
 
-    ResponseEntity<String> createSablonFile(SablonFileInputDTO sablonFile);
+    String createSablonFile(SablonFileInputDTO sablonFileInputDTO);
 
-    ResponseEntity<SablonFileOutputDTO> updateSablonFile(Long id, SablonFileInputDTO sablonFile);
+    SablonFileOutputDTO updateSablonFile(Long id, SablonFileInputDTO sablonFileInputDTO);
 
-    ResponseEntity<String> deleteSablonFile(Long id);
+    String deleteSablonFile(Long id);
 
-    ResponseEntity<SablonFileOutputDTO> getSablonFile(Long id);
+    SablonFileOutputDTO getSablonFile(Long id);
 }

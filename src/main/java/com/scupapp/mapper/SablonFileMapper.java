@@ -9,4 +9,6 @@ import org.mapstruct.Mapper;
 public interface SablonFileMapper {
 
     SablonFile toEntity(SablonFileInputDTO sablonFileInputDTO);
+
+    SablonFileInputDTO toDto(SablonFile sablonFile);
 }
